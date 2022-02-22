@@ -1,15 +1,12 @@
-# Ansible_Devops_Tool
+# Ansible
 
 
 
 
 
-
-
-| 작성날짜 | 2022-02-21                             |
-| -------- | -------------------------------------- |
-| 참고     | 인프런/처음부터 설치하며 배우는 앤서블 |
-| 링크     | https://bit.ly/359AUtP                 |
+| 작성날짜 | 2022-02-21                               |
+| -------- | ---------------------------------------- |
+| 저자     | 조훈(시스템/네트워크를 위한 파이썬 저자) |
 
 
 
@@ -21,23 +18,9 @@ CODE > BUILD > TEST > RELEASE > OPERATE
 
 
 
-
-
-
-
-
-
 * **DEVOPS 방식**
 
 code > build > test > release > deploy > operate > monitor > plan 
-
-
-
-
-
-
-
-
 
 
 
@@ -55,37 +38,19 @@ git/jira > gradle > JUnit > Jenkins > Ansible > Nagios
 
 
 
-
-
-
-
 ****
 
 
 
 
 
+### Configuration Management Tools 비교표 
 
 
 
 
 
-
-## Configuration Management Tools 비교표
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 왜 Ansible을 배우나요??
+* 왜 Ansible을 배우나요??
 
 | 구성 관리 툴 | 특징                                                         | agent 설치 |
 | ------------ | ------------------------------------------------------------ | ---------- |
@@ -102,17 +67,11 @@ git/jira > gradle > JUnit > Jenkins > Ansible > Nagios
 
 
 
-****
 
 
+Ansible 설치
 
 
-
-
-
-
-
-### Ansible 설치
 
 ```
 OS : CENTOS 7 
@@ -151,15 +110,7 @@ ansible all -m ping -k
 
 
 
-****
-
-
-
-
-
-
-
-### Ansible이 참조하는 파일은 어떤것이 있나요?
+* Ansible이 참조하는 파일은 어떤것이 있나요?
 
 ```
 1. Ansible의 환경 설정 파일
@@ -173,7 +124,7 @@ ansible all -m ping -k
 
 
 
-### Ansible의 옵션값이란? 
+* Ansible의 옵션값이란? 
 
 ```
 -i : (--inventory-file) 적용될 호스트들에 대한 파일
@@ -197,13 +148,13 @@ ansible nginx  -m ping --list-hosts (ansible 적용될 호스트들 출력해줌
 
 
 
-### 어떻게 Ansible을 활용할 수 있나요?
+어떻게 Ansible을 활용할 수 있나요?
 
 
 
 
 
-#### 1. uptime 확인하기
+* 1. uptime 확인하기
 
 * ansible all -m shell -a "uptime" -k
 
@@ -217,21 +168,7 @@ ansible nginx  -m ping --list-hosts (ansible 적용될 호스트들 출력해줌
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### 2. 디스크 용량 확인하기
+* 2. 디스크 용량 확인하기
 
 * ansible all -m shell -a "df -h" -k
 
@@ -257,17 +194,8 @@ tmpfs                    378M     0  378M   0% /run/user/0
 
 
 
-
-
-
-
-
-
-
-
-#### 3. 메모리 상태 확인하기
-
-* ansible all -m shell -a "free -h" -k
+* 3. 메모리 상태 확인하기
+*  ansible all -m shell -a "free -h" -k
 
 ```
 192.168.111.135 | CHANGED | rc=0 >>
@@ -282,14 +210,7 @@ Swap:          3.9G          0B        3.9G
 
 
 
-
-
-
-
-
-
-#### 4. 새로운 유저 만들기
-
+* 4. 새로운 유저 만들기
 * ansible all -m user -a "name=bloter password=1234" -k
 
 ```
@@ -334,20 +255,7 @@ this module to work properly.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-#### 5. 파일 전송하기
-
+* 5. 파일 전송하기
 * ansible nginx -m copy-a "src=./bloter.file dest=/tmp/" -k
 
 ```
@@ -396,13 +304,8 @@ this module to work properly.
 
 
 
-
-
-
-
-#### 6. 서비스 설치
-
-* ansible nginx -m copy -a "src=./bloter.file dest=/tmp/" -k
+* 6. 서비스 설치
+*  ansible nginx -m copy -a "src=./bloter.file dest=/tmp/" -k
 
 
 
@@ -459,7 +362,7 @@ SSH password:
 
 
 
-#### Ansible playbook 작성 팁
+
 
 * yaml 파일 작성시 **tab**이 아닌 **space**를 사용해야함
 * 아래 그림과 같이 정확하게 같은 간격으로 문자를 배열해야함 , 조금이라도 오차가있으면 에러발생
@@ -472,22 +375,30 @@ SSH password:
 
 
 
-#### Ansible Playbook
+
 
 * 플레이북( PLAY BOOK)
 * 각본,작전,계획이라는 뜻 
 * 멱등성의 성질을 가지고 있음 :  연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질
 
-사용예시 :  **대량의 서버에 웹서비스를 설치 및 기동해야 할 때 사용하면 간편하며, 휴먼에러를 최소화 할 수 있음**
+예 ) 대량의 서버에 웹서비스를 설치 및 기동해야 할 때??
 
 
 
 ```
-아래 내용을 Play Book에 넣고 한번에 실행하면 모든게 적용되도록 할 수 있음
+아래 내용을 Play Book에 넣고 한번 실행하면 모든게 적용되도록 할 수 있음
+
 
 1. nginx 설치
 2. 파일 전송
 3. 서비스 재시작
+
+
+멱등성 테스트 (이렇게 테스트하면 커맨드 날릴떄마다 적용됨 )
+echo -e "[bloter]\n192.168.1.13" >> /etc/ansible/hosts
+
+
+
 ```
 
 
@@ -496,15 +407,9 @@ SSH password:
 
 
 
+* Ansible Play book
 
-
-
-
-
-
-
-
-#### Ansible Playbook bloter.yml 테스트
+  bloter.yml  플레이북 테스트
 
 ```
 
@@ -528,7 +433,7 @@ SSH password:
 
 ##################################################################################################################
 cat /etc/ansible/hosts
-#아래 내용이 생기되 반복 커맨드에 대해서는 무시하고, 변경된 사항만 기록됨
+아래 내용 생김
 # BEGIN ANSIBLE MANAGED BLOCK
 [bloter]
 192.168.111.134
@@ -542,13 +447,7 @@ cat /etc/ansible/hosts
 
 
 
-
-
-
-
-
-
-#### Ansible Playbook을 이용한 nginx 설치
+* nginx 설치 ,배포를 Ansible Play book을 이용해서 구축
 
 ```
 vi nginx.yml
@@ -597,13 +496,7 @@ PLAY RECAP *********************************************************************
 
 
 
-
-
-
-
-
-
-#### Ansible을 이용한 방화벽 정지
+* 방화벽을 ansible을 이용해 정지
 
 ```
 [root@k8s-master ~]# ansible nginx -m shell -a "systemctl stop firewalld" -k
@@ -620,45 +513,32 @@ SSH password:
 
 
 
-#### Ansible Playbook index.html파일 변경해서 작성
+* nginx의 html을 변경해서 playbook에 적용 playbook은 변경된 사항만 적용해준다.
 
-```
-[root@k8s-master ~]# cat nginx.yml
----
-- hosts: nginx  #/etc/ansible/hosts에서 [nginx]
-  remote_user: root  #꼭 루트로 할 필요는 없음
-  tasks:
-    - name: install epel-release  # nginx는 기본 패키지에 포함되지 않아서 epel 설치필요함
-      yum: name=epel-release state=latest
-    - name: install nginx web server
-      yum: name=nginx state=present
-    - name: Upload default index.html for web server
-      copy: src=index.html dest=/usr/share/nginx/html/ mode=0644  #보안을 위해서 0644로 설정 
-    - name: start nginx web server
-      service: name=nginx state=started
-
-```
-
-
+  ```
+  [root@k8s-master ~]# cat nginx.yml
+  ---
+  - hosts: nginx  #/etc/ansible/hosts에서 [nginx]
+    remote_user: root  #꼭 루트로 할 필요는 없음
+    tasks:
+      - name: install epel-release  # nginx는 기본 패키지에 포함되지 않아서 epel 설치필요함
+        yum: name=epel-release state=latest
+      - name: install nginx web server
+        yum: name=nginx state=present
+      - name: Upload default index.html for web server
+        copy: src=index.html dest=/usr/share/nginx/html/ mode=0644  #보안을 위해서 0644로 설정 
+      - name: start nginx web server
+        service: name=nginx state=started
+  
+  ```
 
 
 
+* 결과
 
-
-
-
-
-
-
-
-
-
-
-
-#### Ansible Playbook 변경한 index.html을 관리 대상노드에 적용하기
-
- ```
- [root@k8s-master ~]# ansible-playbook nginx.yml -k
+* ```
+  
+  [root@k8s-master ~]# ansible-playbook nginx.yml -k
   SSH password:
   
   PLAY [nginx] *************************************************************************************************
@@ -687,21 +567,11 @@ SSH password:
   192.168.111.135            : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
   192.168.111.136            : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
   
- ```
+  ```
 
   
 
-
-
-
-
-
-
-
-
-
-
-#### vim-plug 설치 후 ansible-vim  설치
+vim-plug 설치 후 ansible-vim  설치
 
 ```
 #vimrc 설치
@@ -723,13 +593,7 @@ yum install git
 
 
 
-
-
-
-
-
-
-#### Ansible Playbook 에러를 더 잘보이게 하는 설정
+에러를 더 잘보이게 하는 설정
 
 ```
 /etc/ansible/ansible.cfg
